@@ -73,7 +73,11 @@ public class MyProcessor extends Processor {
                 System.out.println("\n***Stored AC to memory***\n");
                 break;
             case "0101": // <5> Add to AC from memory
-                
+                int acSum = getValueFromMemLoc(address);
+                int acPrev = this.ACC.getValue(0);
+                acSum+= acPrev;
+                this.ACC.setValue(0, acSum);
+                System.out.println("\n***Added to AC from memory***\n");
                 break;
             case "0100": // <4> Subtract from AC from memory
             
