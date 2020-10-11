@@ -121,24 +121,28 @@ public class MyProcessor extends Processor {
                     return this.exec;
                 } else if(this.cache[0] == 1){
                     this.cache[2] = hexBinarytoInt(address); // amount of times it should go to the location
-                    this.cache[3] = this.PC.getValue(0); // Save previous PC value
-                    this.PC.setValue(0, this.cache[1]); // Bring PC back
+                    this.cache[3] = this.PC.getValue(0); // Save current PC value
+                    this.PC.setValue(0, this.cache[1]); // Bring PC back to declared state
                     this.cache[0] = 2; // Change so that it goes to the else statement
+                    System.out.println("\n###LOOP START###\n");
                     return this.exec;
                 } else {
-                    if (this.gotoC == this.cache[2]) {
+                    if (this.gotoC == this.cache[2]) { // Check if the amount of times has reached
+                        // End of GOTO
                         this.PC.setValue(0, this.cache[3]); // Restore PC value
                         // Reset cache
                         this.cache = new int[4];
                         this.cache[0] = 0;
+                        System.out.println("\n###LOOP END###\n");
                     }
 
-                    if (this.PC.getValue(0) == this.cache[3]) {
+                    if (this.PC.getValue(0) == this.cache[3]) { // If the PC reaches the stored state but the amount
+                        // of times has not reached the declared amount, reset the PC
                         this.PC.setValue(0, this.cache[1]); // Bring PC back
                         return this.exec;
                     }
 
-                    this.gotoC++;
+                    this.gotoC++; // Increment the amount of times
                 }
                 break;
             case "1000": // <8> (COMP)
