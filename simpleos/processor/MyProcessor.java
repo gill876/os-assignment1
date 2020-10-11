@@ -62,15 +62,12 @@ public class MyProcessor extends Processor {
         String address = instruction.substring(4, 16);
         switch (opcode) {
             case "0001": // <1> Load AC from memory
-                int memloc = hexBinarytoInt(address);
-                int memvalue = this.Memory.getValue(memloc);
-                String memv = "0000" + intToBinaryHex(memvalue).substring(4, 16);
-                int value = hexBinarytoInt(memv);
+                int value = getValueFromMemLoc(address);
                 this.ACC.setValue(0, value);
                 System.out.println("\n***Loaded AC from memory***\n");
                 break;
             case "0010": // <2> Store AC to memory
-            
+                
                 break;
             case "0101": // <5> Add to AC from memory
                 
@@ -106,6 +103,15 @@ public class MyProcessor extends Processor {
         this.PC.setValue(0, pc);
 
         return this.exec;
+    }
+
+    public int getValueFromMemLoc(String address) {
+        // Get value from Memory
+        int memloc = hexBinarytoInt(address);
+        int memvalue = this.Memory.getValue(memloc);
+        String memv = "0000" + intToBinaryHex(memvalue).substring(4, 16);
+        int value = hexBinarytoInt(memv);
+        return value;
     }
 
     public static String intToBinaryHex(int number) {
