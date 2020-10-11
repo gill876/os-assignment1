@@ -13,6 +13,8 @@ public class MyProcessor extends Processor {
 
     private int counter;
     private int exec = 1;
+    private int cache[];
+    private int gotoC;
 
     private MyMemory Memory;
 
@@ -30,6 +32,9 @@ public class MyProcessor extends Processor {
 
         setStdin(stdin);
         this.stdinC = 0;
+        this.cache = new int[4];
+        this.cache[0] = 0;
+        this.gotoC = 0;
     }
 
     public void setStdin(int stdin[]) {
@@ -101,7 +106,40 @@ public class MyProcessor extends Processor {
                 this.exec = 2;
                 break;
             case "0110": // <6> (GOTO)
-                
+                // System.out.println(this.gotoC);
+                if (this.cache[0] == 0) {
+                    this.cache[0] = 1; // set that it should expect the amount of times it should goto
+                    // the location in memory specified
+
+                    this.cache[1] = hexBinarytoInt(address); // the memory address it should go to
+
+                    // Increment PC
+                    int pc = this.PC.getValue(0);
+                    pc++;
+
+                    this.PC.setValue(0, pc);
+                    return this.exec;
+                } else if(this.cache[0] == 1){
+                    this.cache[2] = hexBinarytoInt(address); // amount of times it should go to the location
+                    this.cache[3] = this.PC.getValue(0); // Save previous PC value
+                    this.PC.setValue(0, this.cache[1]); // Bring PC back
+                    this.cache[0] = 2; // Change so that it goes to the else statement
+                    return this.exec;
+                } else {
+                    if (this.gotoC == this.cache[2]) {
+                        this.PC.setValue(0, this.cache[3]); // Restore PC value
+                        // Reset cache
+                        this.cache = new int[4];
+                        this.cache[0] = 0;
+                    }
+
+                    if (this.PC.getValue(0) == this.cache[3]) {
+                        this.PC.setValue(0, this.cache[1]); // Bring PC back
+                        return this.exec;
+                    }
+
+                    this.gotoC++;
+                }
                 break;
             case "1000": // <8> (COMP)
             
