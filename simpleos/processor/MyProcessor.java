@@ -3,7 +3,7 @@ package simpleos.processor;
 import simpleos.memory.*;
 
 
-public  class MyProcessor extends Processor {
+public class MyProcessor extends Processor {
 
     private MyMemory PC;    
     private MyMemory IR;    
@@ -42,7 +42,7 @@ public  class MyProcessor extends Processor {
             case "1000": // <8> (COMP)
             
                 break;
-            case "0000": // <0> (HALT)
+            case "1001": // <9> (HALT)
             
                 break;
         
@@ -52,4 +52,4 @@ public  class MyProcessor extends Processor {
         return 1;
     } 
 
-} //end abstract class Processor
+} //end class Processor
