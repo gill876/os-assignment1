@@ -1,6 +1,8 @@
 package simpleos.processor;
 
 import simpleos.memory.*;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class MyProcessor extends Processor {
@@ -50,6 +52,59 @@ public class MyProcessor extends Processor {
                 break;
         }
         return 1;
-    } 
+    }
+
+    public static String intToBinaryHex(int number) {
+        String hex0[] = new String[4]; // store 12 bit binary hex
+        String output = "";
+        int pos = 0;
+        for (String i: (String.valueOf(number)).split("")) { // Traverse through each digit and turn into String
+            hex0[pos] = Integer.toBinaryString(Integer.parseInt(i)); // convert String into binary 
+            if (hex0[pos].length() < 4) { // make into 4 bit binary by adding 0's
+                int count = 4 - hex0[pos].length();
+                hex0[pos] = new String(new char[count]).replace("\0", "0") + hex0[pos]; // pad binary with 0's to make into 4 bit
+            }
+            //System.out.println(i);
+            output+= hex0[pos];
+            pos++;
+        }
+        //System.out.println(output);
+        return output;
+    }
+    
+    public static int hexBinarytoInt(String hexbin) {
+        int integer = 0;
+        String fullInt = "";
+
+        for (String i: splitStringFixedLen(hexbin, 4)) {
+            fullInt+= Integer.parseInt(i, 2); // Convert from binary to decimal
+        }
+
+        integer = Integer.parseInt(fullInt); // Turn string to integer
+        return integer;
+    }
+    
+    // http://www.java2s.com/example/java-utility-method/string-split-by-length/splitstringfixedlen-string-data-int-interval-d9c70.html
+    public static String[] splitStringFixedLen(String data, int interval) {
+        List<String> dataPiece = new ArrayList<String>();
+
+        int addedOffset;
+        for (int offset = 0; offset < data.length(); offset += addedOffset) {
+            String subData = data.substring(offset,
+                    Math.min(data.length(), (offset + interval)));
+            addedOffset = subData.lastIndexOf('\n');
+            if (addedOffset >= 0) {
+                subData = subData.substring(0, addedOffset);
+                ++addedOffset;
+            } else {
+                addedOffset = interval;
+            }
+            dataPiece.add(subData);
+        }
+    
+        String[] result = new String[dataPiece.size()];
+        dataPiece.toArray(result);
+        return result;
+    }
 
 } //end class Processor
