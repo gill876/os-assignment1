@@ -11,34 +11,35 @@ public class OS {
         try {
             // 1 = a
             // 2 = b
+            /**Instructions for Fibonacci sequence*/
             int instructions[] = {
                 // Load AC from stdin
                 3000,
                 // Store AC to memory
-                2001,
+                2001, // addr 1
                 // Load AC from stdin
                 3000,
                 // Store AC to memory
-                2002,
+                2002, // addr 2
                 /* REPEAT */
                 // Load AC from memory
-                1001,
+                1001, // addr 1
                 // Store AC to stdout
                 7000,
                 // Add to AC from memory
-                5002,
+                5002, // addr 2
                 // Store AC to memory
-                2001,
+                2001, // addr 1
                 // Load AC from memory
-                1001,
+                1001, // addr 1
                 // Subtract from AC from memory
-                4002,
+                4002, // addr 2
                 // Store AC to memory
-                2002,
+                2002, // addr 2
                 // GOTO
                 6004,
                 // GOTO
-                6010,
+                6010, // 10 times
                 // Halt
                 9000
             };
@@ -59,7 +60,7 @@ public class OS {
 
                     case 2:
                         int stdout = p.getStdout();
-                        System.out.println("\nSTDOUT: " + stdout + "\n");
+                        System.out.println("\n\t!!!!!!!!!STDOUT: " + stdout + " !!!!!!!!!\n");
                         break;
                 
                     default:

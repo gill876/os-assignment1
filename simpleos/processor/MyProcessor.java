@@ -72,37 +72,37 @@ public class MyProcessor extends Processor {
             case "0001": // <1> Load AC from memory
                 int value = getValueFromMemLoc(address);
                 this.ACC.setValue(0, value);
-                System.out.println("\n***Loaded AC from memory***\n");
+                System.out.println("\n\t***Loaded AC from memory***\n");
                 break;
             case "0010": // <2> Store AC to memory
                 int acVal = this.ACC.getValue(0);
                 int index = hexBinarytoInt(address);
                 this.Memory.setValue(index, acVal);
-                System.out.println("\n***Stored AC to memory***\n");
+                System.out.println("\n\t***Stored AC to memory***\n");
                 break;
             case "0101": // <5> Add to AC from memory
                 int acSum = getValueFromMemLoc(address);
                 int acPrev = this.ACC.getValue(0);
                 acSum+= acPrev;
                 this.ACC.setValue(0, acSum);
-                System.out.println("\n***Added to AC from memory***\n");
+                System.out.println("\n\t***Added to AC from memory***\n");
                 break;
             case "0100": // <4> Subtract from AC from memory
                 int acDiff = getValueFromMemLoc(address);
                 int acPrev2 = this.ACC.getValue(0);
                 acPrev2-= acDiff;
                 this.ACC.setValue(0, acPrev2);
-                System.out.println("\n***Subtracted to AC from memory***\n");
+                System.out.println("\n\t***Subtracted to AC from memory***\n");
                 break;
             case "0011": // <3> Load AC from stdin
                 int stdIn = getStdin();
                 this.ACC.setValue(0, stdIn);
-                System.out.println("\n***Loaded AC from stdin***\n");
+                System.out.println("\n\t***Loaded AC from stdin***\n");
                 break;
             case "0111": // <7> Store AC to stdout
                 int stdOut = this.ACC.getValue(0);
                 setStdout(stdOut);
-                System.out.println("\n***Stored AC to stdout***\n");
+                System.out.println("\n\t***Stored AC to stdout***\n");
                 this.exec = 2;
                 break;
             case "0110": // <6> (GOTO)
@@ -124,7 +124,7 @@ public class MyProcessor extends Processor {
                     this.cache[3] = this.PC.getValue(0); // Save current PC value
                     this.PC.setValue(0, this.cache[1]); // Bring PC back to declared state
                     this.cache[0] = 2; // Change so that it goes to the else statement
-                    System.out.println("\n###LOOP START###\n");
+                    System.out.println("\n\t###LOOP START###\n");
                     return this.exec;
                 } else {
                     if (this.gotoC == this.cache[2]) { // Check if the amount of times has reached
@@ -133,7 +133,7 @@ public class MyProcessor extends Processor {
                         // Reset cache
                         this.cache = new int[4];
                         this.cache[0] = 0;
-                        System.out.println("\n###LOOP END###\n");
+                        System.out.println("\n\t###LOOP END###\n");
                     }
 
                     if (this.PC.getValue(0) == this.cache[3]) { // If the PC reaches the stored state but the amount
@@ -150,7 +150,7 @@ public class MyProcessor extends Processor {
                 break;
             case "1001": // <9> (HALT)
                 this.exec = -1;
-                System.out.println("\n***The processor will halt***\n");
+                System.out.println("\n\t***The processor will halt***\n");
                 break;
         
             default:
