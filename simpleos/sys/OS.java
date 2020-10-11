@@ -9,13 +9,19 @@ public class OS {
     public static void main(String[] args){
 
         try {
+            int instructions[] = {1001, 800, 9000};
+            int stdin[] = {0, 1};
             MyMemory m = new MyMemory(5);
-            MyProcessor p = new MyProcessor();
+            m.loadValues(instructions);
+            MyProcessor p = new MyProcessor(m, stdin);
             m.printSize();
-            p.fetch();            
-			Thread.sleep(2000);
-            p.execute();
-			Thread.sleep(2000);
+            int cycle = 1;
+            while (cycle == 1) {
+                p.fetch();
+                Thread.sleep(2000);
+                cycle = p.execute();
+                Thread.sleep(2000);
+            }
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

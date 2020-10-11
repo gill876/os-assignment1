@@ -11,24 +11,33 @@ public class MyProcessor extends Processor {
     private MyMemory IR;    
     private MyMemory ACC;
 
+    private int counter;
+    private int exec = 1;
+
     private MyMemory Memory;
 
-    private int stdin;
+    private int stdin[];
+    private int stdinC;
     private int stdout;
 
-    public MyProcessor(MyMemory PC, MyMemory IR, MyMemory ACC, MyMemory Memory) {
-        this.PC = PC;
-        this.IR = IR;
-        this.ACC = ACC;
+    public MyProcessor(MyMemory Memory, int stdin[]) {
+        this.PC = new MyMemory(1);
+        this.IR = new MyMemory(1);
+        this.ACC = new MyMemory(1);
         this.Memory = Memory;
+        this.counter = 0;
+        this.PC.setValue(0, counter);
+        this.stdinC = 0;
     }
 
-    public void setStdin(int stdin) {
+    public void setStdin(int stdin[]) {
         this.stdin = stdin;
     }
 
     public int getStdin() {
-        return this.stdin;
+        int stdiin = this.stdin[this.stdinC];
+        this.stdinC++;
+        return stdiin;
     }
 
     public void setStdout(int stdout) {
@@ -41,15 +50,24 @@ public class MyProcessor extends Processor {
 
     public int fetch() {
         System.out.println("Processor is now fetching..");
-        
-        return 1;
+        int pc = this.PC.getValue(0);
+        int memval = this.Memory.getValue(pc);
+        this.IR.setValue(0, memval); 
+        return this.exec;
     } 
     public int execute() {
         System.out.println("Processor is now execting..");
-        String instruction = "";
-        switch (instruction) {
+        String instruction = intToBinaryHex(this.IR.getValue(0));
+        String opcode = instruction.substring(0, 4);
+        String address = instruction.substring(4, 16);
+        switch (opcode) {
             case "0001": // <1> Load AC from memory
-                
+                int memloc = hexBinarytoInt(address);
+                int memvalue = this.Memory.getValue(memloc);
+                String memv = "0000" + intToBinaryHex(memvalue).substring(4, 16);
+                int value = hexBinarytoInt(memv);
+                this.ACC.setValue(0, value);
+                System.out.println("\n***Loaded AC from memory***\n");
                 break;
             case "0010": // <2> Store AC to memory
             
@@ -73,13 +91,21 @@ public class MyProcessor extends Processor {
             
                 break;
             case "1001": // <9> (HALT)
-            
+                this.exec = 0;
+                System.out.println("\n***The processor will halt***\n");
                 break;
         
             default:
                 break;
         }
-        return 1;
+
+        // Increment PC
+        int pc = this.PC.getValue(0);
+        pc++;
+
+        this.PC.setValue(0, pc);
+
+        return this.exec;
     }
 
     public static String intToBinaryHex(int number) {
@@ -97,6 +123,11 @@ public class MyProcessor extends Processor {
             pos++;
         }
         //System.out.println(output);
+        if (output.length() < 16) {
+            int count = 16 - output.length();
+            output = new String(new char[count]).replace("\0", "0") + output;
+        }
+
         return output;
     }
     

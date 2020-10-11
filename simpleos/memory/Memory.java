@@ -20,7 +20,9 @@ public abstract class Memory {
        return memloc[index]; 
     }
 
-
+    public void loadValues(int[] values) {
+        this.memloc = values;
+    }
 
     public int setValue(int index, int value) {
         try{

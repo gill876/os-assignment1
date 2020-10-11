@@ -8,4 +8,4 @@ public class MyMemory extends Memory {
         public void printSize(){
             System.out.println("The Size of the memory is: " + getSize());
         }
-}//end abstract class memory
+}//end class memory
