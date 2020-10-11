@@ -80,7 +80,11 @@ public class MyProcessor extends Processor {
                 System.out.println("\n***Added to AC from memory***\n");
                 break;
             case "0100": // <4> Subtract from AC from memory
-            
+                int acDiff = getValueFromMemLoc(address);
+                int acPrev2 = this.ACC.getValue(0);
+                acPrev2-= acDiff;
+                this.ACC.setValue(0, acPrev2);
+                System.out.println("\n***Subtracted to AC from memory***\n");
                 break;
             case "0011": // <3> Load AC from stdin
                 
