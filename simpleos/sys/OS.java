@@ -9,7 +9,7 @@ public class OS {
     public static void main(String[] args){
 
         try {
-            int instructions[] = {1001, 800, 9000};
+            int instructions[] = {1001, 800, 2004, 9000, 0, 0};
             int stdin[] = {0, 1};
             MyMemory m = new MyMemory(5);
             m.loadValues(instructions);
@@ -18,11 +18,11 @@ public class OS {
             int cycle = 1;
             while (cycle == 1) {
                 p.fetch();
-                Thread.sleep(2000);
+                //Thread.sleep(2000);
                 cycle = p.execute();
-                Thread.sleep(2000);
+                //Thread.sleep(2000);
             }
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }// End man method

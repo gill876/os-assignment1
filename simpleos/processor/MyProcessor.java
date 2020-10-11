@@ -67,7 +67,10 @@ public class MyProcessor extends Processor {
                 System.out.println("\n***Loaded AC from memory***\n");
                 break;
             case "0010": // <2> Store AC to memory
-                
+                int acVal = this.ACC.getValue(0);
+                int index = hexBinarytoInt(address);
+                this.Memory.setValue(index, acVal);
+                System.out.println("\n***Stored AC to memory***\n");
                 break;
             case "0101": // <5> Add to AC from memory
                 
