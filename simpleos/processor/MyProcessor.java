@@ -9,14 +9,42 @@ public class MyProcessor extends Processor {
 
     private MyMemory PC;    
     private MyMemory IR;    
-    private MyMemory ACC;    
+    private MyMemory ACC;
 
+    private MyMemory Memory;
 
-    public int fetch(){
+    private int stdin;
+    private int stdout;
+
+    public MyProcessor(MyMemory PC, MyMemory IR, MyMemory ACC, MyMemory Memory) {
+        this.PC = PC;
+        this.IR = IR;
+        this.ACC = ACC;
+        this.Memory = Memory;
+    }
+
+    public void setStdin(int stdin) {
+        this.stdin = stdin;
+    }
+
+    public int getStdin() {
+        return this.stdin;
+    }
+
+    public void setStdout(int stdout) {
+        this.stdout = stdout;
+    }
+
+    public int getStdout() {
+        return this.stdout;
+    }
+
+    public int fetch() {
         System.out.println("Processor is now fetching..");
+        
         return 1;
     } 
-    public int execute(){
+    public int execute() {
         System.out.println("Processor is now execting..");
         String instruction = "";
         switch (instruction) {
