@@ -27,6 +27,8 @@ public class MyProcessor extends Processor {
         this.Memory = Memory;
         this.counter = 0;
         this.PC.setValue(0, counter);
+
+        setStdin(stdin);
         this.stdinC = 0;
     }
 
@@ -56,6 +58,7 @@ public class MyProcessor extends Processor {
         return this.exec;
     } 
     public int execute() {
+        this.exec = 1;
         System.out.println("Processor is now execting..");
         String instruction = intToBinaryHex(this.IR.getValue(0));
         String opcode = instruction.substring(0, 4);
@@ -87,10 +90,15 @@ public class MyProcessor extends Processor {
                 System.out.println("\n***Subtracted to AC from memory***\n");
                 break;
             case "0011": // <3> Load AC from stdin
-                
+                int stdIn = getStdin();
+                this.ACC.setValue(0, stdIn);
+                System.out.println("\n***Loaded AC from stdin***\n");
                 break;
             case "0111": // <7> Store AC to stdout
-            
+                int stdOut = this.ACC.getValue(0);
+                setStdout(stdOut);
+                System.out.println("\n***Stored AC to stdout***\n");
+                this.exec = 2;
                 break;
             case "0110": // <6> (GOTO)
                 
@@ -99,7 +107,7 @@ public class MyProcessor extends Processor {
             
                 break;
             case "1001": // <9> (HALT)
-                this.exec = 0;
+                this.exec = -1;
                 System.out.println("\n***The processor will halt***\n");
                 break;
         
